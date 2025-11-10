@@ -10,8 +10,9 @@
     html, body {
       height: 100%;
       margin: 0;
-      overflow: hidden; /* No scrollbars */
+      overflow: hidden; /* hides scrollbars */
     }
+
     body {
       font-family: 'Inter', system-ui, sans-serif;
       display: flex;
@@ -80,13 +81,14 @@
       font-size: 14px;
       transition: background 0.25s, transform 0.1s;
     }
+
     .btn:hover { transform: translateY(-1px); }
 
-    /* Dark theme buttons */
+    /* Dark mode buttons */
     body.dark .btn { background: #1f2937; color: #e5e7eb; border: 1px solid #374151; }
     body.dark .btn.primary { background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; }
 
-    /* Light theme buttons */
+    /* Light mode buttons */
     body.light .btn { background: #e5e7eb; color: #1f2937; border: 1px solid #cbd5e1; }
     body.light .btn.primary { background: linear-gradient(135deg, #2563eb, #0ea5e9); color: white; border: none; }
 
@@ -107,10 +109,12 @@
     body.dark .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
     body.light .card { background: white; border: 1px solid #e5e7eb; }
 
-    iframe {
+    .viewer {
       width: 100%;
       height: 100%;
-      border: none;
+      border: 0;
+      display: block;
+      background: transparent;
     }
 
     /* ===== Footer ===== */
@@ -130,9 +134,7 @@
         gap: 10px;
       }
 
-      .brand {
-        font-size: 1rem;
-      }
+      .brand { font-size: 1rem; }
 
       .actions {
         justify-content: flex-start;
@@ -143,16 +145,10 @@
         width: 95%;
         height: 75vh;
       }
-
-      iframe {
-        height: 100%;
-      }
     }
 
     @media (max-width: 480px) {
-      .header {
-        padding: 0.8rem;
-      }
+      .header { padding: 0.8rem; }
 
       .btn {
         flex: 1 1 auto;
@@ -162,7 +158,7 @@
 
       .card {
         width: 95%;
-        height: 65vh;
+        height: 70vh;
       }
     }
   </style>
@@ -182,7 +178,8 @@
   </header>
 
   <div class="card">
-    <iframe src="resume.pdf" title="Resume PDF"></iframe>
+    <!-- Fix: PDF fits perfectly without gray borders or scroll -->
+    <iframe class="viewer" src="resume.pdf#zoom=page-width&view=FitH&toolbar=0" title="Resume PDF"></iframe>
   </div>
 
   <footer class="footer">
@@ -190,7 +187,7 @@
   </footer>
 
   <script>
-    // Year
+    // Year update
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // Theme toggle
