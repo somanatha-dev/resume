@@ -1,209 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Somanatha • Resume</title>
 
-  <!-- Font -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- SEO / Social (optional, tweak as you like) -->
-  <meta name="description" content="Resume of Somanatha Basavanuty. Download as PDF or view inline.">
-  <meta property="og:title" content="Somanatha • Resume" />
-  <meta property="og:description" content="Clean, fast resume viewer." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0ea5e9" />
-
   <style>
-    /* Reset-ish */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      line-height:1.5;
-      color: var(--fg);
-      background: radial-gradient(1200px 800px at 20% -10%, #0ea5e922, transparent 60%),
-                  radial-gradient(1000px 700px at 120% 10%, #8b5cf622, transparent 60%),
-                  linear-gradient(180deg, #0b0f14 0%, #0a0d12 100%);
+    /* ---- Base ---- */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      transition: background 0.3s, color 0.3s;
     }
 
-    :root{
-      --fg: #e5e7eb;
-      --muted: #9aa3af;
-      --card: rgba(255,255,255,0.06);
-      --border: rgba(255,255,255,0.12);
-      --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
-      --accent: #0ea5e9;
-      --accent-2: #8b5cf6;
+    body.dark {
+      background: linear-gradient(180deg, #0d1117, #111827);
+      color: #e5e7eb;
     }
-    .light{
-      --fg:#0b1220;
-      --muted:#5b6472;
-      --card: rgba(255,255,255,0.9);
-      --border: rgba(10,15,20,0.08);
-      background: radial-gradient(1200px 800px at 20% -10%, #38bdf81a, transparent 60%),
-                  radial-gradient(1000px 700px at 120% 10%, #a78bfa1a, transparent 60%),
-                  #f5f7fb;
+    body.light {
+      background: #f7f9fc;
+      color: #1f2937;
     }
 
-    /* Header */
-    .nav{
-      position: sticky; top:0; z-index:10;
-      backdrop-filter: saturate(140%) blur(10px);
-      background: linear-gradient(to bottom, rgba(10,13,18,.7), rgba(10,13,18,.0));
-      border-bottom: 1px solid var(--border);
-    }
-    .nav__inner{
-      max-width: 1100px; margin: 0 auto; padding: .8rem 1rem;
-      display:flex; align-items:center; gap: .75rem; justify-content: space-between;
-    }
-    .brand{display:flex; align-items:center; gap:.6rem; font-weight:700; letter-spacing:.2px}
-    .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
-    .muted{color:var(--muted)}
+    a { text-decoration: none; transition: color 0.3s; }
+    body.dark a { color: #38bdf8; }
+    body.light a { color: #1e40af; }
 
-    /* Container */
-    .wrap{max-width:1100px; margin: 2rem auto; padding: 0 1rem 3rem}
-
-    /* Card */
-    .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
+    .wrap {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
     }
 
-    .card__head{
-      padding: 1rem 1.2rem;
-      display:flex; align-items:center; gap:.8rem; justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.04), transparent);
-    }
-    .title{font-size:1rem; font-weight:600}
-    .actions{display:flex; gap:.6rem; flex-wrap:wrap}
-
-    /* Buttons */
-    .btn{
-      appearance:none; border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
-      color: var(--fg); font-weight:600; font-size:.9rem;
-      padding:.55rem .9rem; border-radius:12px; cursor:pointer;
-      display:inline-flex; align-items:center; gap:.5rem;
-      transition: transform .08s ease, border-color .2s ease, background .2s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-      text-decoration:none
-    }
-    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22)}
-    .btn--primary{
-      border-color: transparent;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0)) ,
-        linear-gradient(135deg, var(--accent), var(--accent-2));
-      color:white;
+    /* ---- Header ---- */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    /* PDF viewer */
-    .viewer{
-      width:100%;
-      aspect-ratio: 8.5/11; /* nice default for resumes */
-      min-height: 70vh;
-      border:0; display:block;
-      background: repeating-linear-gradient(45deg, #0000, #0000 10px, rgba(255,255,255,.02) 10px, rgba(255,255,255,.02) 20px);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
     }
 
-    /* Footer note */
-    .foot{
-      display:flex; gap:.6rem; align-items:center; justify-content:center;
-      color:var(--muted); font-size:.9rem; padding: 1rem;
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      box-shadow: 0 0 10px rgba(59,130,246,0.6);
     }
 
-    /* Small screens */
-    @media (max-width: 720px){
-      .title{font-size:.95rem}
-      .viewer{min-height: 80vh; aspect-ratio:auto}
-      .actions{gap:.5rem}
-      .btn{padding:.5rem .8rem}
+    /* ---- Buttons ---- */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn {
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.25s, transform 0.1s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    /* Dark mode buttons */
+    body.dark .btn { background: #1f2937; color: #e5e7eb; border: 1px solid #374151; }
+    body.dark .btn.primary { background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; }
+
+    /* Light mode buttons */
+    body.light .btn { background: #e5e7eb; color: #1f2937; border: 1px solid #cbd5e1; }
+    body.light .btn.primary { background: linear-gradient(135deg, #2563eb, #0ea5e9); color: white; border: none; }
+
+    /* ---- Card ---- */
+    .card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: background 0.3s, border 0.3s;
+    }
+    body.dark .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+    body.light .card { background: white; border: 1px solid #e5e7eb; }
+
+    .viewer {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      display: block;
+    }
+
+    /* ---- Footer ---- */
+    .footer {
+      margin-top: 1.2rem;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.75;
     }
   </style>
 </head>
-<body>
-  <!-- Top bar -->
-  <header class="nav">
-    <div class="nav__inner">
+<body class="dark">
+  <div class="wrap">
+    <header class="header">
       <div class="brand">
-        <span class="dot" aria-hidden="true"></span>
-        <span>Somanatha</span>
-        <span class="muted">Resume</span>
+        <div class="logo"></div>
+        <span>Somanatha’s Resume</span>
       </div>
 
       <div class="actions">
-        <a class="btn" id="openNewTab" href="resume.pdf" target="_blank" rel="noopener">
-          <!-- icon -->
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M14 3h7v7M21 3l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          Open in new tab
-        </a>
-
-        <a class="btn btn--primary" href="resume.pdf" download>
-          <!-- icon -->
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 3v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M8 11l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          Download PDF
-        </a>
-
-        <button class="btn" id="toggleTheme" type="button" aria-label="Toggle theme">
-          <!-- icon -->
-          <svg id="icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Open in new tab</a>
+        <a class="btn" href="resume.pdf" download>Download</a>
+        <button class="btn" id="themeToggle">☀️ Light</button>
+        <button class="btn primary" id="printBtn">Print</button>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main -->
-  <main class="wrap">
-    <div class="card">
-      <div class="card__head">
-        <div class="title">Somanatha’s Resume — PDF Viewer</div>
-        <div class="muted">If the preview fails, use “Open in new tab.”</div>
-      </div>
+    <section class="card">
+      <iframe class="viewer" src="resume.pdf" title="Resume PDF"></iframe>
+    </section>
 
-      <!-- Inline PDF preview -->
-      <iframe class="viewer" src="resume.pdf"></iframe>
-    </div>
-
-    <div class="foot">© <span id="year"></span> Somanatha Basavanuty • Hosted on GitHub Pages</div>
-  </main>
+    <p class="footer">© <span id="year"></span> Somanatha Basavanuty • Hosted on GitHub Pages</p>
+  </div>
 
   <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Year update
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Theme toggle with localStorage
-    const root = document.documentElement;
-    const key = 'resume_theme';
-    const stored = localStorage.getItem(key);
-    if (stored === 'light') document.body.classList.add('light');
+    // Theme toggle
+    const body = document.body;
+    const themeBtn = document.getElementById("themeToggle");
 
-    document.getElementById('toggleTheme').addEventListener('click', () => {
-      document.body.classList.toggle('light');
-      localStorage.setItem(key, document.body.classList.contains('light') ? 'light' : 'dark');
+    function setTheme(mode) {
+      body.className = mode;
+      themeBtn.textContent = mode === "dark" ? "☀️ Light" : "🌙 Dark";
+      localStorage.setItem("theme", mode);
+    }
+
+    const saved = localStorage.getItem("theme");
+    if (saved) setTheme(saved);
+
+    themeBtn.addEventListener("click", () => {
+      const newMode = body.classList.contains("dark") ? "light" : "dark";
+      setTheme(newMode);
     });
 
-    // If the iframe errors (e.g., mobile/browser PDF plugin), fall back to opening the file
-    const viewer = document.querySelector('.viewer');
-    viewer.addEventListener('error', () => {
-      window.location.href = 'resume.pdf';
+    // Print
+    document.getElementById("printBtn").addEventListener("click", () => {
+      const w = window.open("resume.pdf", "_blank");
+      setTimeout(() => { if (w) w.print(); }, 600);
     });
   </script>
 </body>
