@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <title>Somanatha • Resume</title>
 
   <style>
-    /* ---- Base ---- */
-  
     html, body {
       height: 100%;
       margin: 0;
+      overflow: hidden; /* hides both x and y scrollbars */
+    }
+
+    body {
       font-family: 'Inter', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
       transition: background 0.3s, color 0.3s;
     }
 
@@ -29,34 +34,14 @@
     body.dark a { color: #38bdf8; }
     body.light a { color: #1e40af; }
 
-    html, body {
-    height: 100%;
-    margin: 0;
-    overflow-x: auto;
-    overflow-y: hiddden;
-  background-attachment: fixed;
-}
-
-body.dark, body.light {
-  min-height: 100vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-    .wrap {
-      max-width: 1100px;
-      margin: 2rem auto;
-      padding: 0 1rem 3rem;
-    }
-
-    /* ---- Header ---- */
+    /* Header */
     .header {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      padding: 1rem 2rem;
+      box-sizing: border-box;
     }
 
     .brand {
@@ -75,7 +60,7 @@ body.dark, body.light {
       box-shadow: 0 0 10px rgba(59,130,246,0.6);
     }
 
-    /* ---- Buttons ---- */
+    /* Buttons */
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -83,7 +68,7 @@ body.dark, body.light {
     }
     .btn {
       border: none;
-      padding: 10px 14px;
+      padding: 8px 14px;
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
@@ -91,85 +76,82 @@ body.dark, body.light {
       transition: background 0.25s, transform 0.1s;
     }
     .btn:hover { transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
 
-    /* Dark mode buttons */
     body.dark .btn { background: #1f2937; color: #e5e7eb; border: 1px solid #374151; }
     body.dark .btn.primary { background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; border: none; }
 
-    /* Light mode buttons */
     body.light .btn { background: #e5e7eb; color: #1f2937; border: 1px solid #cbd5e1; }
     body.light .btn.primary { background: linear-gradient(135deg, #2563eb, #0ea5e9); color: white; border: none; }
 
-    /* ---- Card ---- */
+    /* Viewer card */
     .card {
+      flex: 1;
+      width: 90%;
+      max-width: 900px;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       transition: background 0.3s, border 0.3s;
     }
-    body.dark .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+    body.dark .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
     body.light .card { background: white; border: 1px solid #e5e7eb; }
 
-    .viewer {
+    iframe {
       width: 100%;
-      height: 80vh;
+      height: 100%;
       border: none;
-      display: block;
     }
 
-    /* ---- Footer ---- */
+    /* Footer */
     .footer {
-      margin-top: 1.2rem;
+      width: 100%;
       text-align: center;
       font-size: 14px;
-      opacity: 0.75;
+      padding: 0.5rem;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body class="dark">
-  <div class="wrap">
-    <header class="header">
-      <div class="brand">
-        <div class="logo"></div>
-        <span>Somanatha’s Resume</span>
-      </div>
+  <header class="header">
+    <div class="brand">
+      <div class="logo"></div>
+      <span>Somanatha’s Resume</span>
+    </div>
+    <div class="actions">
+      <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Open</a>
+      <a class="btn" href="resume.pdf" download>Download</a>
+      <button class="btn" id="themeToggle">☀️ Light</button>
+      <button class="btn primary" id="printBtn">Print</button>
+    </div>
+  </header>
 
-      <div class="actions">
-        <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Open in new tab</a>
-        <a class="btn" href="resume.pdf" download>Download</a>
-        <button class="btn" id="themeToggle">☀️ Light</button>
-        <button class="btn primary" id="printBtn">Print</button>
-      </div>
-    </header>
-
-    <section class="card">
-      <iframe class="viewer" src="resume.pdf" title="Resume PDF"></iframe>
-    </section>
-
-    <p class="footer">© <span id="year"></span> Somanatha Basavanuty • Hosted on GitHub Pages</p>
+  <div class="card">
+    <iframe src="resume.pdf" title="Resume PDF"></iframe>
   </div>
 
+  <footer class="footer">
+    © <span id="year"></span> Somanatha Basavanuty • Hosted on GitHub Pages
+  </footer>
+
   <script>
-    // Year update
+    // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // Theme toggle
     const body = document.body;
-    const themeBtn = document.getElementById("themeToggle");
+    const btn = document.getElementById("themeToggle");
+    const saved = localStorage.getItem("theme");
+    if (saved) body.className = saved;
 
     function setTheme(mode) {
       body.className = mode;
-      themeBtn.textContent = mode === "dark" ? "☀️ Light" : "🌙 Dark";
+      btn.textContent = mode === "dark" ? "☀️ Light" : "🌙 Dark";
       localStorage.setItem("theme", mode);
     }
 
-    const saved = localStorage.getItem("theme");
-    if (saved) setTheme(saved);
-
-    themeBtn.addEventListener("click", () => {
-      const newMode = body.classList.contains("dark") ? "light" : "dark";
-      setTheme(newMode);
+    btn.addEventListener("click", () => {
+      setTheme(body.classList.contains("dark") ? "light" : "dark");
     });
 
     // Print
